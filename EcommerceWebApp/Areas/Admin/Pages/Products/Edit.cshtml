@@ -1,0 +1,223 @@
+﻿@page
+@model EcommerceWebApp.Areas.Admin.Pages.Products.EditModel
+@using EcommerceWebApi.Models
+@{
+    ViewData["Title"] = "Edit";
+    int variantCount = Model.InputModel.Variants.Count;
+    var labelModel = new Product();
+}
+
+<h1>Edit</h1>
+
+<h4>Product</h4>
+<hr />
+<form method="post" enctype="multipart/form-data" id="Form1">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InputModel.ID" value="@Model.InputModel.ID" />
+            <div class="form-group">
+                <label asp-for="InputModel.ProductName" class="control-label"></label>
+                <input asp-for="InputModel.ProductName" class="form-control modal-box-control" value="@Model.InputModel.ProductName" />
+                <span asp-validation-for="InputModel.ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InputModel.Description" class="control-label"></label>
+                <input asp-for="InputModel.Description" class="form-control modal-box-control" value="@Model.InputModel.Description" />
+                <span asp-validation-for="InputModel.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InputModel.Price" class="control-label"></label>
+                <input asp-for="InputModel.Price" class="form-control modal-box-control" value="@Model.InputModel.Price" />
+                <span asp-validation-for="InputModel.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InputModel.CreatedAt" class="control-label"></label>
+                <input asp-for="InputModel.CreatedAt" class="form-control modal-box-control" readonly />
+                <span asp-validation-for="InputModel.CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input modal-box-control" asp-for="InputModel.IsActive">
+                <label class="form-check-label" asp-for="InputModel.IsActive">
+                    @Html.DisplayNameFor(model => model.InputModel.IsActive)
+                </label>
+            </div>
+            @*<div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="InputModel.IsActive" />
+                    @Html.DisplayNameFor(model => labelModel.IsActive)
+                </label>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="InputModel.SelectedCategory" class="control-label"></label>
+                <select class="form-control modal-box-control" asp-for="InputModel.SelectedCategory" asp-items="Model.SelectedCategories" multiple></select>
+                <span asp-validation-for="InputModel.SelectedCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InputModel.Variants" class="control-label"></label>
+            </div>
+            <table class="table" id="variantTable">
+                <thead>
+                    <tr>
+                        <th><label asp-for="InputModel.Variants[0].Type" class="control-label"></label></th>
+                        <th><label asp-for="InputModel.Variants[0].Stock" class="control-label"></label></th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                            <input type="button" id="add" value="+" class="btn btn-primary" />
+                        </th>
+                        <th>
+                            <input type="button" id="del" value="-" class="btn btn-danger" />
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < variantCount; i++)
+                    {
+                        <tr style="background-color: #e9ecef; opacity: 1;">
+
+                            <td><input type="text" asp-for="InputModel.Variants[i].Type" class="form-control modal-box-control" /></td>
+                            <td><input type="text" asp-for="InputModel.Variants[i].Stock" class="form-control modal-box-control" /></td>
+                            <td><input type="hidden" asp-for="InputModel.Variants[i].ID" class="form-control" value="@Model.InputModel.Variants[i].ID" /></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @*<div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>*@
+            <button id="SubmitBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Save
+            </button>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="InputModel.Photos" class="control-label"></label><br />
+                <input type="file" asp-for="InputModel.Photos" multiple class="modal-box-control"/><br />
+                <span asp-validation-for="InputModel.Photos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="card-group">
+                    <div class="row">
+                        @for (int index = 0; index < Model.InputModel.ProductImages.Count; index++)
+                        {
+                            <div id="@index-cardItem" class="card col-md-4">
+                                <img class="card-img-top h-75 w-75 mx-auto mt-3" src="~/images/@Model.InputModel.ProductImages[index].Path" alt="Card image cap">
+                                <input type="hidden" asp-for="@Model.InputModel.ProductImages[index].ID" class="form-control productImageId" />
+                                <input type="hidden" asp-for="@Model.InputModel.ProductImages[index].Path" class="form-control productImagePath modal-box-control" />
+                                <div class="card-body text-center">
+                                    <input type="button" value="Remove" class="btn btn-danger deleteImg" id="@index" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-justify" id="exampleModalLongTitle">Confirm to edit this product?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <dl class="row">
+                    </dl>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Confirm" class="btn btn-primary" tabindex="-1" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $('#add').click(function () {
+            var tbody = $('#variantTable > tbody');
+            var variantCount = tbody.find("tr").length;
+            tbody.append('<tr class="deleteTrue">' +
+                '<td><input type="text" name="InputModel.Variants[' + variantCount + '].Type" class="form-control modal-box-control"   /></td>' +
+                '<td><input type="text" name="InputModel.Variants[' + variantCount + '].Stock" class="form-control modal-box-control"  /></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '</tr>');
+        });
+        $('#del').click(function () {
+            var tbody = $('#variantTable > tbody').find("tr.deleteTrue").last();
+            tbody.remove();
+        });
+    </script>
+    <script>
+        $('.deleteImg').click(function () {
+            var cardIndex = parseInt(this.id);
+            var card = $('#' + cardIndex + '-cardItem');
+            card.remove();
+            var cardNum = $('div.card').length;
+            for (var i = cardIndex; i < cardNum; i++) {
+
+                $('div#' + (i + 1) + '-cardItem > input.productImageId').attr('id', "InputModel_ProductImages_" + i + "__ID");
+                $('div#' + (i + 1) + '-cardItem > input.productImageId').attr('name', "InputModel.ProductImages[" + i + "].ID");
+                $('div#' + (i + 1) + '-cardItem > input.productImagePath').attr('id', "InputModel_ProductImages_" + i + "__Path");
+                $('div#' + (i + 1) + '-cardItem > input.productImagePath').attr('name', "InputModel.ProductImages[" + i + "].Path");
+                $('div#' + (i + 1) + '-cardItem').attr('id', i + '-cardItem');
+                $('input#' + (i + 1) + '.deleteImg').attr('id', i);
+            }
+        });
+    </script>
+    <script>
+        $("#SubmitBtn").click(function () {
+            var modalDL = $('dl.row');
+            modalDL.children().remove();
+            $("form#Form1 :input.modal-box-control").each(function (index) {
+
+                var input = $(this).val();
+                var labelName = $("label[for='" + this.id + "']").text();
+
+                if (this.id == 'InputModel_SelectedCategory') {
+                    input = $('select.modal-box-control').find(':selected').text();
+                    input = input.split(/(?=[A-Z])/);
+                }
+
+                if (this.id == "InputModel_Photos") {
+                    var names = [];
+                    for (var i = 0; i < $('input[type="file"]').get(0).files.length; ++i) {
+                        names.push($('input[type="file"]').get(0).files[i].name);
+                    }
+                    input = names.length <= 0 ? "[No file chosen]" : names;
+                }
+
+                if ($(this).attr('type') == 'checkbox') {
+                    if ($(this).is(":checked")) {
+                        input = "Yes";
+                    } else {
+                        input = "No";
+                    }
+                }
+
+                modalDL.append('<dt class="col-sm-4">' + labelName + '</dt>'
+                    + '<dd class="col-sm-8">' + input + '</dd>');
+
+            });
+        });
+    </script>
+}

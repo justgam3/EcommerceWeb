@@ -1,0 +1,49 @@
+﻿@page
+@model EcommerceWebApp.Areas.Admin.Pages.Variants.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Variant</h4>
+<hr />
+@if (ViewData["Error"] != null)
+{
+    <p>
+        <span class="text-danger">@ViewData["Error"].ToString()</span>
+    </p>
+}
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Variant.ProductID" class="control-label"></label>
+                    <select asp-for="InputModel.ProductID" class="form-control" asp-items="ViewBag.ProductID"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Variant.Type" class="control-label"></label>
+                    <input asp-for="InputModel.Type" class="form-control" />
+                    <span asp-validation-for="InputModel.Type" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Variant.Stock" class="control-label"></label>
+                    <input asp-for="InputModel.Stock" class="form-control" />
+                    <span asp-validation-for="InputModel.Stock" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-page="Index" asp-route-id="@ViewBag.ID">Back to product's variant(s)</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

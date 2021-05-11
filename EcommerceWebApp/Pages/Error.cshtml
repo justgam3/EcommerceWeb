@@ -1,0 +1,32 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Error";
+    //Layout = null;
+}
+
+<div class="container">
+    <h1>Error.</h1>
+    <h2>An error occurred while processing your request.</h2>
+
+    @if (Model.ShowRequestId)
+    {
+        <p>
+            <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        </p>
+    }
+
+    <br />
+
+    <p><mark>@Model.ExceptionSource</mark></p>
+
+    <p><mark>@Model.ExceptionMessage</mark></p>
+
+    <br />
+    <p>
+        Please contact your <strong>Administrator</strong> about the error that occurred.
+    </p>
+
+    <a asp-page="Index">Back to home page</a>
+
+</div>

@@ -1,0 +1,122 @@
+﻿@page
+@model EcommerceWebApp.Areas.Admin.Pages.Orders.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" id="Form1">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Order.ID" />
+            <input type="hidden" asp-for="Order.MemberID" />
+            <input type="hidden" asp-for="CurrentStatus" />
+            <div class="form-group">
+                <label asp-for="Order.Member.Email" class="control-label"></label>
+                <input asp-for="Order.Member.Email" class="form-control modal-box-control" readonly />
+                <span asp-validation-for="Order.Member.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.PaymentID" class="control-label"></label>
+                <input asp-for="Order.PaymentID" class="form-control modal-box-control" readonly />
+                <span asp-validation-for="Order.PaymentID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.OrderDate" class="control-label"></label>
+                <input asp-for="Order.OrderDate" class="form-control modal-box-control" readonly />
+                <span asp-validation-for="Order.OrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Country" class="control-label"></label>
+                <input asp-for="Order.Country" class="form-control modal-box-control" />
+                <span asp-validation-for="Order.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.State" class="control-label"></label>
+                <input asp-for="Order.State" class="form-control modal-box-control" />
+                <span asp-validation-for="Order.State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.PostCode" class="control-label"></label>
+                <input asp-for="Order.PostCode" class="form-control modal-box-control" />
+                <span asp-validation-for="Order.PostCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Status" class="control-label"></label>
+                <select asp-for="Order.Status" class="form-control modal-box-control">
+                    <option value="To Ship">To Ship</option>
+                    <option value="To Receive">To Receive</option>
+                    <option value="Completed">Compeleted</option>
+                </select>
+                <span asp-validation-for="Order.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.StatusDesc" class="control-label"></label>
+                <input asp-for="Order.StatusDesc" class="form-control modal-box-control" />
+                <span asp-validation-for="Order.StatusDesc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.TotalPrice" class="control-label"></label>
+                <input asp-for="Order.TotalPrice" class="form-control modal-box-control" readonly />
+                <span asp-validation-for="Order.TotalPrice" class="text-danger"></span>
+            </div>
+
+            <button id="SubmitBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Save
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-justify" id="exampleModalLongTitle">Confirm to edit this order?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <dl class="row">
+                            </dl>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" value="Confirm" class="btn btn-primary" tabindex="-1" />
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    $("#SubmitBtn").click(function () {
+            var modalDL = $('dl.row');
+            modalDL.children().remove();
+            $("form#Form1 :input.modal-box-control").each(function (index) {
+
+                var input = $(this).val();
+                var labelName = $("label[for='" + this.id + "']");
+
+                modalDL.append('<dt class="col-sm-4">' + labelName.text() + '</dt>'
+                        + '<dd class="col-sm-8">' + input + '</dd>');
+
+            });
+        });
+</script>
+}

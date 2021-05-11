@@ -1,0 +1,45 @@
+﻿@page
+@model EcommerceWebApp.Areas.Admin.Pages.Variants.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Variant</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Variant.ID" />
+            <div class="form-group">
+                <label asp-for="Variant.ProductID" class="control-label"></label>
+                <select asp-for="Variant.ProductID" class="form-control" asp-items="ViewBag.ProductID"></select>
+                <span asp-validation-for="Variant.ProductID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Variant.Type" class="control-label"></label>
+                <input asp-for="Variant.Type" class="form-control" />
+                <span asp-validation-for="Variant.Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Variant.Stock" class="control-label"></label>
+                <input asp-for="Variant.Stock" class="form-control" />
+                <span asp-validation-for="Variant.Stock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index" asp-route-id="@Model.Variant.ProductID">Back to product's categories</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

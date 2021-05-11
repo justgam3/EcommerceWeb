@@ -1,0 +1,116 @@
+﻿@page
+@model EcommerceWebApp.Areas.Admin.Pages.Products.CreateModel
+@using EcommerceWebApi.Models
+@{
+    ViewData["Title"] = "Create";
+    var listItems = (SelectList)ViewData["Category"];
+    var labelModel = new Product();
+}
+
+<h1>Create</h1>
+
+<h4>Product</h4>
+<p class="text-danger">@ViewData["ErrorMsg"]</p>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@labelModel.ProductName" class="control-label"></label>
+                <input asp-for="InputModel.ProductName" class="form-control" />
+                <span asp-validation-for="InputModel.ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@labelModel.Description" class="control-label"></label>
+                <input asp-for="InputModel.Description" class="form-control" />
+                <span asp-validation-for="InputModel.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@labelModel.Price" class="control-label"></label>
+                <input asp-for="InputModel.Price" class="form-control" />
+                <span asp-validation-for="InputModel.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="InputModel.IsActive" />
+                    @Html.DisplayNameFor(model => labelModel.IsActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="@labelModel.ProductCategories" class="control-label"></label>
+                <select class="form-control" asp-for="InputModel.SelectedCategory" asp-items="@listItems" multiple></select>
+                <span asp-validation-for="InputModel.SelectedCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@labelModel.ProductImages" class="control-label"></label><br />
+                <input type="file" asp-for="InputModel.Photos" multiple /><br />
+                <span asp-validation-for="InputModel.Photos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@labelModel.Variants" class="control-label"></label>
+                <span asp-validation-for="InputModel.Variants" class="text-danger"></span>
+            </div>
+            <table class="table" id="variantTable">
+                <thead>
+                    <tr>
+                        <th><label asp-for="InputModel.Variants.FirstOrDefault().Type" class="control-label"></label></th>
+                        <th><label asp-for="InputModel.Variants.FirstOrDefault().Stock" class="control-label"></label></th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                            <input type="button" id="add" value="+" class="btn btn-primary" />
+                        </th>
+                        <th>
+                            <input type="button" id="del" value="-" class="btn btn-danger" />
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $('#add').click(function () {
+            var tbody = $('#variantTable > tbody');
+            var variantCount = tbody.find("tr").length;
+            tbody.append('<tr class="deleteTrue">' +
+                '<td><input type="text" name="InputModel.Variants[' + variantCount + '].Type" class="form-control"   /></td>' +
+                '<td><input type="text" name="InputModel.Variants[' + variantCount + '].Stock" class="form-control"  /></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '</tr>');
+        });
+        $('#del').click(function () {
+            var tbody = $('#variantTable > tbody').find("tr.deleteTrue").last();
+            tbody.remove();
+        });
+    </script>
+
+    <script>
+        $("form").submit(function (e) {
+            var tbody = $('#variantTable > tbody');
+            var variantCount = tbody.find("tr").length;
+            if (variantCount <= 0) {
+                alert("At least one variant must be added.");
+                e.preventDefault(e);
+            }
+        });
+    </script>
+}

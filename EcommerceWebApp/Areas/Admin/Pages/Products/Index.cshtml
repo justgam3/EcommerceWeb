@@ -1,0 +1,92 @@
+﻿@page
+@model EcommerceWebApp.Areas.Admin.Pages.Products.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].IsActive)
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-orderBy="created_at">@Html.DisplayNameFor(model => model.Product[0].CreatedAt)</a>
+            </th>
+            <th>
+                <a asp-page="./Index"  asp-route-orderBy="updated_at">@Html.DisplayNameFor(model => model.Product[0].UpdatedAt)</a>
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Product)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    Page @(Model.PaginationFilter.PageNumber > Model.PaginationFilter.TotalPages ? 0 : Model.PaginationFilter.PageNumber) of @Model.PaginationFilter.TotalPages
+</p>
+
+
+@{
+    var prevDisabled = !Model.PaginationFilter.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PaginationFilter.HasNextPage ? "disabled" : "";
+}
+
+
+
+<a asp-page="./Index"
+   asp-route-orderBy="@Model.CurrentSort"
+   asp-route-pageNumber="@(Model.PaginationFilter.PageNumber - 1)"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-orderBy="@Model.CurrentSort"
+   asp-route-pageNumber="@(Model.PaginationFilter.PageNumber + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

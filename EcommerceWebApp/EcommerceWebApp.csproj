@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>aspnet-EcommerceWebApp-EE677088-D03D-4E84-9776-34B7A320C5DD</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Admin\Pages\Log\**" />
+    <Compile Remove="Areas\Admin\Pages\ProductCategories\**" />
+    <Compile Remove="Areas\Admin\Pages\ProductImages\**" />
+    <Compile Remove="Areas\Admin\Pages\Variants\**" />
+    <Compile Remove="Models\**" />
+    <Content Remove="Areas\Admin\Pages\Log\**" />
+    <Content Remove="Areas\Admin\Pages\ProductCategories\**" />
+    <Content Remove="Areas\Admin\Pages\ProductImages\**" />
+    <Content Remove="Areas\Admin\Pages\Variants\**" />
+    <Content Remove="Models\**" />
+    <EmbeddedResource Remove="Areas\Admin\Pages\Log\**" />
+    <EmbeddedResource Remove="Areas\Admin\Pages\ProductCategories\**" />
+    <EmbeddedResource Remove="Areas\Admin\Pages\ProductImages\**" />
+    <EmbeddedResource Remove="Areas\Admin\Pages\Variants\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Areas\Admin\Pages\Log\**" />
+    <None Remove="Areas\Admin\Pages\ProductCategories\**" />
+    <None Remove="Areas\Admin\Pages\ProductImages\**" />
+    <None Remove="Areas\Admin\Pages\Variants\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Helpers\ProductHelper.cs" />
+    <Compile Remove="Helpers\ProductImageHelper.cs" />
+    <Compile Remove="InputModels\ProductImageInputModel.cs" />
+    <Compile Remove="InputModels\VariantInputModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="NLog" Version="4.7.8" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.11.0" />
+    <PackageReference Include="SendGrid" Version="9.22.0" />
+    <PackageReference Include="Stripe.net" Version="39.39.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Pages\test\" />
+    <Folder Include="Areas\Admin\Pages\Roles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EcommerceWeb\EcommerceWebApi.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,236 @@
+﻿@page
+@using Microsoft.Extensions.Options
+@inject IOptions<EcommerceWebApp.Data.StripeSettings> Stripe
+@model EcommerceWebApp.Areas.User.Pages.Shoping_cartModel
+@{
+}
+
+<form asp-page-handler="Charge" class="bg0 p-t-75 p-b-85" method="post">
+    <!-- Shoping Cart -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+                <div class="m-l-25 m-r--38 m-lr-0-xl">
+                    <div class="wrap-table-shopping-cart">
+                        <table class="table-shopping-cart">
+                            <tr class="table_head">
+                                <th class="column-1">Product</th>
+                                <th class="column-2"></th>
+                                <th class="column-3">Price</th>
+                                <th class="column-4">Quantity</th>
+                                <th class="column-5">Sub Total</th>
+                                <th></th>
+                            </tr>
+                            @foreach (var item in Model.CartDetailDTO.CartDetails)
+                            {
+                                <tr class="table_row" id="@item.VariantID-row">
+                                    <td class="column-1">
+                                        <div class="how-itemcart1" id="@item.VariantID">
+                                            <img src="~/images/@item.Variant.Product.ProductImages.FirstOrDefault().Path" alt="IMG">
+                                        </div>
+                                    </td>
+                                    <td class="column-2">@item.Variant.Type - @item.Variant.Product.ProductName</td>
+                                    <td class="column-3">$ @item.Variant.Product.Price</td>
+                                    <td class="column-4">
+                                        <div class="wrap-num-product flex-w m-l-auto m-r-0">
+                                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m btn-update-cart" id="@item.VariantID">
+                                                <i class="fs-16 zmdi zmdi-minus"></i>
+                                            </div>
+
+                                            <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product1" id="@item.VariantID-variant" value="@item.Quantity" readonly>
+
+                                            @if (item.Quantity >= item.Variant.Stock)
+                                            {
+                                                <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m btn-update-cart" id="@item.VariantID" style="display:none;">
+                                                    <i class="fs-16 zmdi zmdi-plus"></i>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m btn-update-cart" id="@item.VariantID">
+                                                    <i class="fs-16 zmdi zmdi-plus"></i>
+                                                </div>
+                                            }
+
+                                        </div>
+                                    </td>
+                                    <td id="@item.VariantID-SubTotal" class="column-5">
+                                        $ @(item.Quantity * item.Variant.Product.Price)
+                                    </td>
+                                    <td>
+                                        @if(item.Variant.Stock <= 0)
+                                        {
+                                            <span class="text-danger">Insufficient stock</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                    <h4 class="mtext-109 cl2 p-b-30">
+                        Cart Totals
+                    </h4>
+
+                    <div class="flex-w flex-t bor12 p-t-15 p-b-30">
+                        <div class="size-208 w-full-ssm">
+                            <span class="stext-110 cl2">
+                                Shipping:
+                            </span>
+                        </div>
+
+                        <div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+                            <p class="stext-111 cl6 p-t-2">
+                                There are no shipping methods available. Please double check your address, or contact us if you need any help.
+                            </p>
+
+                            <div class="p-t-15">
+                                <span class="stext-112 cl8">
+                                    Calculate Shipping
+                                </span>
+
+                                <div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
+                                    <select class="js-select2" asp-for="@Model.CartInputModel.Country">
+                                        <option>USA</option>
+                                        <option>UK</option>
+                                    </select>
+                                    <div class="dropDownSelect2"></div>
+                                    <span asp-validation-for="CartInputModel.Country" class="text-danger"></span>
+                                </div>
+
+                                <span asp-validation-for="CartInputModel.State" class="text-danger"></span>
+                                <div class="bor8 bg0 m-b-12">
+                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" asp-for="@Model.CartInputModel.State" placeholder="State">
+
+                                </div>
+
+                                <span asp-validation-for="CartInputModel.Postcode" class="text-danger"></span>
+                                <div class="bor8 bg0 m-b-22">
+                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" asp-for="@Model.CartInputModel.Postcode" placeholder="Postcode / Zip">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-w flex-t p-t-27 p-b-33">
+                        <div class="size-208">
+                            <span class="mtext-101 cl2">
+                                Total:
+                            </span>
+                        </div>
+
+                        <div class="size-209 p-t-1">
+                            <span id="TotalPrice" class="mtext-110 cl2">
+                                $ @Model.CartDetailDTO.TotalPrice
+                            </span>
+                        </div>
+                    </div>
+
+                    <p class="text-danger">@ViewData["Error"]</p>
+
+                    <div id="stripe">
+                        @if (Model.CartDetailDTO.CartDetails.Count > 0)
+                        {
+                            <input id="memberID" asp-for="CartDetailDTO.MemberID" type="hidden" />
+                            <script src="//checkout.stripe.com/v2/checkout.js"
+                                    class="stripe-button"
+                                    data-key="@Stripe.Value.PublishableKey"
+                                    data-locale="auto"
+                                    data-description="Sample Charge">
+                            </script>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $(".btn-update-cart").click(function () {
+                var memberID = parseInt($('#memberID').val());
+                var variantID = parseInt(this.id);
+                var quantity = parseInt($('#' + this.id + '-variant').val());
+                var cartDetail = {
+                    MemberID: memberID,   // same as model property name
+                    VariantID: variantID,    // same as model property name
+                    Quantity: quantity
+                }
+
+                if (quantity > 0) {
+                    $.ajax({
+                        url: 'http://localhost:61446/api/Action/UpdateCart/' + memberID,
+                        type: 'PUT',
+                        contentType: "application/json-patch+json",
+                        data: JSON.stringify(cartDetail),
+                        success: function (data) {
+                            $('#' + data.cartDetail.variantID + '-SubTotal').html('$ ' + data.cartDetail.quantity * data.cartDetail.variant.product.price);
+                            $('#' + 'TotalPrice').html('$ ' + data.totalPrice);
+                            if (data.cartDetail.quantity >= data.cartDetail.variant.stock) {
+                                $('div#' + variantID + '.btn-num-product-up').hide();
+                            } else {
+                                $('div#' + variantID + '.btn-num-product-up').show();
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log('Error in Operation');
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: 'http://localhost:61446/api/Action/DeleteCartDetail/' + memberID + '/' + variantID,
+                        type: 'DELETE',
+                        contentType: "application/json-patch+json",
+                        success: function (data, textStatus, xhr) {
+                            console.log(data);
+                            $("#" + variantID + "-row").remove();
+                            $('#' + 'TotalPrice').html('$ ' + data.totalPrice);
+                            if (data.totalPrice <= 0) {
+                                $('#stripe').remove();
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log('Error in Operation');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".how-itemcart1").click(function () {
+                var memberID = parseInt($('#memberID').val());
+                var variantID = parseInt(this.id);
+
+                $.ajax({
+                    url: 'http://localhost:61446/api/Action/DeleteCartDetail/' + memberID + '/' + variantID,
+                    type: 'DELETE',
+                    contentType: "application/json-patch+json",
+                    success: function (data, textStatus, xhr) {
+                        console.log(data);
+                        $("#" + variantID + "-row").remove();
+                        $('#' + 'TotalPrice').html('$ ' + data.totalPrice);
+                        if ($("tr.table_row").length <= 0) {
+                            $('#stripe').remove();
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log('Error in Operation');
+                    }
+                });
+            });
+        });
+    </script>
+}

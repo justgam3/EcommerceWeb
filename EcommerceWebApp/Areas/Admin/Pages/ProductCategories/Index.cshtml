@@ -1,0 +1,40 @@
+﻿@page
+@model EcommerceWebApp.Areas.Admin.Pages.ProductCategories.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@Html.DisplayFor(model => model.ProductCategory[0].Product.ProductName)</h1>
+
+<p>
+    <a asp-page="Create" asp-route-prod_id="@ViewBag.ProductID">Create</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductCategory[0].Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProductCategory)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    <a asp-page="./Delete" asp-route-prod_id="@item.ProductID" asp-route-cat_id="@item.CategoryID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-area="Admin" asp-page="/Products/Edit" asp-route-id="@ViewBag.ProductID">Back to product</a>
+</div>
+

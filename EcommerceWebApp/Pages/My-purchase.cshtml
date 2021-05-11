@@ -1,0 +1,42 @@
+﻿@page
+@model EcommerceWebApp.Areas.User.Pages.My_purchaseModel
+@{
+
+}
+
+
+<!-- Shoping Cart -->
+<form class="bg0 p-t-75 p-b-85">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+                <div class="m-l-25 m-r--38 m-lr-0-xl">
+                    <div class="wrap-table-shopping-cart">
+                        <table class="table-shopping-cart">
+                            <tr class="table_head">
+                                <th class="column-1">@Html.DisplayNameFor(model => model.Order.FirstOrDefault().PaymentID)</th>
+                                <th class="column-1">@Html.DisplayNameFor(model => model.Order.FirstOrDefault().OrderDate)</th>
+                                <th class="column-1">@Html.DisplayNameFor(model => model.Order.FirstOrDefault().Status)</th>
+                                <th class="column-1">@Html.DisplayNameFor(model => model.Order.FirstOrDefault().TotalPrice)</th>
+                                <th class="column-1">Action</th>
+                            </tr>
+
+                            @foreach (var item in Model.Order)
+                            {
+                                <tr class="table_row">
+                                    <td class="column-1">@item.PaymentID</td>
+                                    <td class="column-1">@item.OrderDate</td>
+                                    <td class="column-1">@item.Status</td>
+                                    <td class="column-1">$@item.TotalPrice</td>
+                                    <td class="column-1">
+                                        <a asp-page="./Purchase-detail" asp-route-id="@item.ID">Details</a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

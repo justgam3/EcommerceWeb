@@ -1,0 +1,97 @@
+﻿@page
+@model EcommerceWebApp.Areas.Admin.Pages.Products.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.ProductImages)
+        </dt>
+        <dd class="col-sm-10">
+            @for (int index = 1; index <= Model.Product.ProductImages.Count; index++)
+            {
+                var item = Model.Product.ProductImages.ElementAt(index - 1);
+                if (item != null)
+                {
+                    <img class="card-img" style="width: 8rem;" src="~/images/@item.Path" />
+                }
+                if (index % 6 == 0)
+                {
+                    <p></p>
+                }
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.ProductName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.ProductName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.CreatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.CreatedAt)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.ProductCategories)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                @foreach (var item in Model.Product.ProductCategories)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.Name)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Variants)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Product.Variants.FirstOrDefault().Type)</th>
+                    <th>@Html.DisplayNameFor(model => model.Product.Variants.FirstOrDefault().Stock)</th>
+                </tr>
+                @foreach (var item in Model.Product.Variants)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Product.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

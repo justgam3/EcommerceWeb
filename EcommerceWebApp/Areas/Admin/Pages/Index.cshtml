@@ -1,0 +1,112 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+</head>
+
+<div class="text-center">
+    <h1 class="display-4">Dashboard</h1>
+</div>
+
+<div class="row mt-5">
+    <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@ViewData["ProductCount"]</h3>
+
+                <p>Products</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-grid"></i>
+            </div>
+            <a class="small-box-footer" asp-page="/Products/Index">More info <i class="ion ion-play"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>@ViewData["CategoryCount"]</h3>
+
+                <p>Categories</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a class="small-box-footer" asp-page="/Categories/Index">More info <i class="ion ion-play"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>@ViewData["OrderCount"]</h3>
+
+                <p>Order</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-card"></i>
+            </div>
+            <a class="small-box-footer" asp-page="/Orders/Index">More info <i class="ion ion-play"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+</div>
+
+<div class="row mt-5">
+    <!--<div class="col-lg-4 col-6">-->
+        <!-- small box -->
+        <!--<div class="small-box bg-gradient-secondary">
+            <div class="inner">
+                <h3>@ViewData["SupplierCount"]</h3>
+
+                <p>Suppliers</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person"></i>
+            </div>
+            <a class="small-box-footer" asp-area="" asp-controller="Suppliers" asp-action="Index">More info <i class="ion ion-play"></i></a>
+        </div>
+    </div>-->
+    <!-- ./col -->
+    <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-gradient-indigo">
+            <div class="inner">
+                <h3>@ViewData["MemberCount"]</h3>
+
+                <p>Members</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person"></i>
+            </div>
+            <a class="small-box-footer" asp-page="/Members/Index">More info <i class="ion ion-play"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <!--<div class="col-lg-4 col-6">-->
+        <!-- small box -->
+        <!--<div class="small-box bg-gradient-orange">
+            <div class="inner">
+                <h3>@ViewData["EmployeeCount"]</h3>
+
+                <p>Employees</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person"></i>
+            </div>
+            <a class="small-box-footer" asp-area="" asp-controller="Employees" asp-action="Index">More info <i class="ion ion-play"></i></a>
+        </div>
+    </div>-->
+
+
+    <!-- ./col -->
+</div>

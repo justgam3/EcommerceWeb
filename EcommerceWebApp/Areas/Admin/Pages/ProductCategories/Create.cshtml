@@ -1,0 +1,35 @@
+﻿@page
+@model EcommerceWebApp.Areas.Admin.Pages.ProductCategories.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ProductCategory.ProductID" class="control-label"></label>
+                <select asp-for="ProductCategory.ProductID" class="form-control" asp-items="ViewBag.ProductID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductCategory.CategoryID" class="control-label"></label>
+                <select asp-for="ProductCategory.CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-page="Index" asp-route-id="@ViewBag.ID">Back to product's categories</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
